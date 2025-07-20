@@ -1,0 +1,9 @@
+{
+	"name": "datafactory-ADE",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d4f10fa5-a0f6-498d-84c6-880188e50abf",
+		"tenantId": "b0e34b6d-49ac-44e3-acaa-a8f2c97b4c2f"
+	}
+}

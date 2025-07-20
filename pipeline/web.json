@@ -1,0 +1,31 @@
+{
+	"name": "web",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://management.azure.com/subscriptions/9900b385-8275-4ac3-bab0-20053cea1fd9/resourceGroups/ADE_Batch22/providers/Microsoft.DataFactory/factories/Datafactory-second/pipelines/restapi/createRun?api-version=2018-06-01",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com/"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-07-19T16:20:02Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

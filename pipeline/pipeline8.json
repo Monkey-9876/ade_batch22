@@ -1,0 +1,132 @@
+{
+	"name": "pipeline8",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "dynamic_sql_bd_tbl",
+						"type": "DatasetReference",
+						"parameters": {
+							"tbl_name": {
+								"value": "@pipeline().parameters.source_tbl",
+								"type": "Expression"
+							},
+							"db_name": {
+								"value": "@pipeline().parameters.source_db",
+								"type": "Expression"
+							},
+							"sql_name": {
+								"value": "@pipeline().parameters.source_server",
+								"type": "Expression"
+							},
+							"username": {
+								"value": "@pipeline().parameters.source_usrname",
+								"type": "Expression"
+							},
+							"password": {
+								"value": "@pipeline().parameters.source_password",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dynamic_sql_bd_tbl",
+						"type": "DatasetReference",
+						"parameters": {
+							"tbl_name": {
+								"value": "@pipeline().parameters.dest_table",
+								"type": "Expression"
+							},
+							"db_name": {
+								"value": "@pipeline().parameters.dest_db",
+								"type": "Expression"
+							},
+							"sql_name": {
+								"value": "@pipeline().parameters.dest_server",
+								"type": "Expression"
+							},
+							"username": {
+								"value": "@pipeline().parameters.dest_username",
+								"type": "Expression"
+							},
+							"password": {
+								"value": "@pipeline().parameters.dest_password",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"source_tbl": {
+				"type": "string"
+			},
+			"dest_table": {
+				"type": "string"
+			},
+			"source_db": {
+				"type": "string"
+			},
+			"dest_db": {
+				"type": "string"
+			},
+			"source_server": {
+				"type": "string"
+			},
+			"dest_server": {
+				"type": "string"
+			},
+			"source_usrname": {
+				"type": "string"
+			},
+			"dest_username": {
+				"type": "string"
+			},
+			"source_password": {
+				"type": "string"
+			},
+			"dest_password": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-07-17T05:05:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

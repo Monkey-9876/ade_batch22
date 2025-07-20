@@ -1,0 +1,67 @@
+{
+	"name": "dataflow7",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "union_emp1",
+						"type": "DatasetReference"
+					},
+					"name": "union1"
+				},
+				{
+					"dataset": {
+						"referenceName": "union_diffcolumnname",
+						"type": "DatasetReference"
+					},
+					"name": "union2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dataset_outputfolder",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EMPLOYEE_ID as string,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          SALARY as string,",
+				"          DEPARTMENT_ID as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> union1",
+				"source(output(",
+				"          empname as string,",
+				"          fname as string,",
+				"          lname as string,",
+				"          sal as string,",
+				"          dept as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> union2",
+				"union1, union2 union(byName: false)~> union",
+				"union sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['output_union.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

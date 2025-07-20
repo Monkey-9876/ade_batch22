@@ -1,0 +1,66 @@
+{
+	"name": "dataflow6",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "lookupleft",
+						"type": "DatasetReference"
+					},
+					"name": "lookupleft"
+				},
+				{
+					"dataset": {
+						"referenceName": "lookupright",
+						"type": "DatasetReference"
+					},
+					"name": "lookupright"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dataset_outputfolder",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "lookup1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Empid as integer,",
+				"          Name as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> lookupleft",
+				"source(output(",
+				"          Empid as integer,",
+				"          Dept as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> lookupright",
+				"lookupleft, lookupright lookup(lookupleft@Empid == lookupright@Empid,",
+				"     multiple: false,",
+				"     pickup: 'last',",
+				"     asc(lookupright@Empid, true),",
+				"     asc(Dept, true),",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['output_lookup.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

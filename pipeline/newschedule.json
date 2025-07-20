@@ -1,0 +1,19 @@
+{
+	"name": "newschedule",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-07-17T05:12:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
