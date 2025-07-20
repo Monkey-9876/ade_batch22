@@ -17,6 +17,10 @@
 				"typeProperties": {
 					"method": "POST",
 					"url": "https://management.azure.com/subscriptions/9900b385-8275-4ac3-bab0-20053cea1fd9/resourceGroups/ADE_Batch22/providers/Microsoft.DataFactory/factories/Datafactory-second/pipelines/restapi/createRun?api-version=2018-06-01",
+					"body": {
+						"value": "@pipeline().DataFactory",
+						"type": "Expression"
+					},
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://management.azure.com/"
