@@ -1,0 +1,241 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "datafactory-ADE"
+		},
+		"LS_adls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_adls'"
+		},
+		"LS_adls_KV_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_adls_KV'",
+			"defaultValue": "DefaultEndpointsProtocol=https;AccountName=adlsbatch22;"
+		},
+		"LS_sql_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_sql'"
+		},
+		"KV_azure_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-adebatch22.vault.azure.net/"
+		},
+		"LS_sql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlserver-adebatch22.database.windows.net"
+		},
+		"LS_sql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "sqldb-adebatch22"
+		},
+		"LS_sql_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adebatch22"
+		},
+		"LS_sql_KV_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlserver-adebatch22.database.windows.net"
+		},
+		"LS_sql_KV_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "sqldb-adebatch22"
+		},
+		"LS_sql_KV_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adebatch22"
+		},
+		"LS_sql_aram_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "@{linkedService().sql_name}"
+		},
+		"LS_sql_aram_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "@{linkedService().db_name}"
+		},
+		"LS_sql_aram_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().username}"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_windowendtime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime\n"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "datafactory-ADE_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_adls_connectionString": {
+						"value": "[parameters('LS_adls_connectionString')]"
+					},
+					"LS_sql_password": {
+						"value": "[parameters('LS_sql_password')]"
+					},
+					"KV_azure_properties_typeProperties_baseUrl": {
+						"value": "[parameters('KV_azure_properties_typeProperties_baseUrl')]"
+					},
+					"LS_sql_properties_typeProperties_server": {
+						"value": "[parameters('LS_sql_properties_typeProperties_server')]"
+					},
+					"LS_sql_properties_typeProperties_database": {
+						"value": "[parameters('LS_sql_properties_typeProperties_database')]"
+					},
+					"LS_sql_properties_typeProperties_userName": {
+						"value": "[parameters('LS_sql_properties_typeProperties_userName')]"
+					},
+					"LS_sql_aram_properties_typeProperties_server": {
+						"value": "[parameters('LS_sql_aram_properties_typeProperties_server')]"
+					},
+					"LS_sql_aram_properties_typeProperties_database": {
+						"value": "[parameters('LS_sql_aram_properties_typeProperties_database')]"
+					},
+					"LS_sql_aram_properties_typeProperties_userName": {
+						"value": "[parameters('LS_sql_aram_properties_typeProperties_userName')]"
+					},
+					"tumbling_trigger_properties_pipeline_parameters_windowendtime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_windowendtime')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "datafactory-ADE_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactory-ADE_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "datafactory-ADE_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_adls_KV_connectionString": {
+						"value": "[parameters('LS_adls_KV_connectionString')]"
+					},
+					"LS_sql_KV_properties_typeProperties_server": {
+						"value": "[parameters('LS_sql_KV_properties_typeProperties_server')]"
+					},
+					"LS_sql_KV_properties_typeProperties_database": {
+						"value": "[parameters('LS_sql_KV_properties_typeProperties_database')]"
+					},
+					"LS_sql_KV_properties_typeProperties_userName": {
+						"value": "[parameters('LS_sql_KV_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactory-ADE_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "datafactory-ADE_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactory-ADE_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "datafactory-ADE_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactory-ADE_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "datafactory-ADE_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactory-ADE_ArmTemplate_4')]"
+			]
+		}
+	]
+}

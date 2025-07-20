@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactory-ADE"
+		},
+		"LS_adls_connectionString": {
+			"value": ""
+		},
+		"LS_adls_KV_connectionString": {
+			"value": "DefaultEndpointsProtocol=https;AccountName=adlsbatch22;"
+		},
+		"LS_sql_password": {
+			"value": ""
+		},
+		"KV_azure_properties_typeProperties_baseUrl": {
+			"value": "https://kv-adebatch22.vault.azure.net/"
+		},
+		"LS_sql_properties_typeProperties_server": {
+			"value": "sqlserver-adebatch22.database.windows.net"
+		},
+		"LS_sql_properties_typeProperties_database": {
+			"value": "sqldb-adebatch22"
+		},
+		"LS_sql_properties_typeProperties_userName": {
+			"value": "adebatch22"
+		},
+		"LS_sql_KV_properties_typeProperties_server": {
+			"value": "sqlserver-adebatch22.database.windows.net"
+		},
+		"LS_sql_KV_properties_typeProperties_database": {
+			"value": "sqldb-adebatch22"
+		},
+		"LS_sql_KV_properties_typeProperties_userName": {
+			"value": "adebatch22"
+		},
+		"LS_sql_aram_properties_typeProperties_server": {
+			"value": "@{linkedService().sql_name}"
+		},
+		"LS_sql_aram_properties_typeProperties_database": {
+			"value": "@{linkedService().db_name}"
+		},
+		"LS_sql_aram_properties_typeProperties_userName": {
+			"value": "@{linkedService().username}"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_windowendtime": {
+			"value": "@trigger().outputs.windowEndTime\n"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
